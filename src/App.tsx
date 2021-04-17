@@ -1,24 +1,17 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
+import React from "react";
+import "./App.css";
+import { useAuth } from "./context/auth-context";
+import { Authenticates } from "./authenticates-app";
+import { Unauthenticated } from "./unauthenticates-app/index";
+import { ErrorBoundary } from "./components/error-boundary";
+import { FullPageError } from "./components/lib";
 function App() {
+  const { user } = useAuth();
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ErrorBoundary fallbackRender={FullPageError}>
+        {user ? <Authenticates /> : <Unauthenticated />}
+      </ErrorBoundary>
     </div>
   );
 }
